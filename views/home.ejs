@@ -1,9 +1,18 @@
 <html>
     <head><title>
-        Dev
+        <%= title %>
     </title></head>
     <body>
         
-        <h1>dev is from views</h1>
+        <div>
+            <ul>
+             <% for(let i of contact_list) { %>
+                <li>
+                    <h1><p>Name : <%= i.name %></p></h1>
+                    <h1><p>Phone : <%= i.phone %></p></h1>
+                </li>
+            <%}%>
+            </ul>
+        </div>
     </body>
 </html>

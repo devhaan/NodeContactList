@@ -10,11 +10,35 @@ const app = express();
 app.set('view engine', 'ejs');
 app.set("views",path.join(__dirname, 'views'));
 
+//initializing some dummy contact listeners
+let contactList =[
+    {
+        name:"devendra",
+        phone:"1111111110"
+    },
+    {
+        name:"devendra 1",
+        phone:"1111111111"
+    },
+    {
+        name:"devendra 2 ",
+        phone:"1111111112"
+    },
+    {
+        name:"devendra 3",
+        phone:"1111111113"
+    }
+]
+
 // resending requests back to server
 app.get('/', (req, res) => {
 
-   return res.render("home");
+   return res.render("home",{
+       title:"Devendra Mahor",
+       contact_list:contactList
+    });
 })
+
 
 
 // listen the request on port 8000
