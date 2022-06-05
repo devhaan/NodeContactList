@@ -2,6 +2,8 @@ const express = require('express'); // include express
 const port = 8000;
 const path = require('path');
 const bodyParser = require('body-parser');
+const db = require('./config/mongoose');
+const Contact = require('./models/contact');
 
 // fire express...
 
