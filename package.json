@@ -1,0 +1,14 @@
+{
+  "name": "nodecontactlist",
+  "version": "1.0.0",
+  "description": "simple contact list node mvc express app",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "devendra mahor",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.1"
+  }
+}
