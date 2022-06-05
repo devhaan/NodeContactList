@@ -1,27 +1,31 @@
 <html>
-    <head><title>
-        <%= title %>
-    </title></head>
-    <body>
-        
-        <div>
-            <ul>
-             <% for(let i of contact_list) { %>
-                <li>
-                    <h1><p>Name : <%= i.name %></p></h1>
-                    <h1><p>Phone : <%= i.phone %></p></h1>
-                </li>
-            <%}%>
-            </ul>
-        </div>
+  <head>
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/css/home.css" />
+  </head>
+  <body>
+    <h1>Contact List</h1>
+    <div>
+      <ul>
+        <% for(let i of contact_list) { %>
+        <li>
+          <h1><p>Name : <%= i.name %></p></h1>
+          <h1><p>Phone : <%= i.phone %></p></h1>
+          <h1><a href="/delete-contact/?phone=<%= i.phone %>" >
+              X
+          </a></h1>
+        </li>
+        <%}%>
+      </ul>
+    </div>
 
     <div>
-        <form action="/create-contact" method="POST">
-
-            <input type="text" name="name" placeholder="Name" required>
-            <input type="text" name="phone" placeholder="Phone" required>
-            <button type="submit"><b>ADD CONTACT</b></button>
-        </form>
+      <form action="/create-contact" method="POST">
+        <input type="text" name="name" placeholder="Name" required />
+        <input type="text" name="phone" placeholder="Phone" required />
+        <button type="submit"><b>ADD CONTACT</b></button>
+      </form>
     </div>
-    </body>
+    <script type="text/javascript" src="/js/home.js"></script>
+  </body>
 </html>

@@ -1,6 +1,7 @@
 const express = require('express'); // include express
 const port = 8000;
 const path = require('path');
+const bodyParser = require('body-parser');
 
 // fire express...
 
@@ -13,19 +14,22 @@ app.set("views",path.join(__dirname, 'views'));
 
 //middleware //
 // adding parser in res we have details in that we have out data in header we will add data to in res to handle storing in body..
-app.use(express.urlencoded());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.static("assets")); // will help to load css js  images or static files
 
 //custom middleware exanple//
-app.use((req,res,next) => {
-    req.myname="devendra";
-    console.log("mdddleware 1");
-    next();// must be include this otherwise stuck here by this it will movw to next state
-})
-app.use((req,res,next) => {
-    console.log(req.myname);
-    console.log("mdddleware 2");
-    next();// must be include this otherwise stuck here by this it will movw to next state
-})
+// app.use((req,res,next) => {
+//     req.myname="devendra";
+//     console.log("mdddleware 1");
+//     next();// must be include this otherwise stuck here by this it will movw to next state
+// })
+// app.use((req,res,next) => {
+//     console.log(req.myname);
+//     console.log("mdddleware 2");
+//     next();// must be include this otherwise stuck here by this it will movw to next state
+// })
+
+
 
 //initializing some dummy contact listeners
 let contactList =[
@@ -60,6 +64,26 @@ app.get('/profile', function(req, res){
     return res.render('profile', {
         title: "Let us play with ejs"
     });
+});
+
+app.get('/delete-contact',(req, res)=>{
+    //console.log(req.query.phone);
+    let phoneTemp = req.query.phone;
+    //will take extra space
+    // let list=contactList.filter(contact=> (contact.phone !== phoneTemp));
+    // contactList=list;
+    //console.log("list",list);
+    //or
+   
+
+    //without extra space
+    let currentIndex=contactList.findIndex(contact => contact.phone == phoneTemp);
+    console.log(currentIndex,phoneTemp);
+    if(currentIndex != -1){
+        contactList.splice(currentIndex, 1);
+    }
+    
+    return res.redirect('back'); // will redirect to same page from where request came
 });
 
 //responding request for data storage post request from input form
