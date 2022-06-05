@@ -10,8 +10,22 @@ const app = express();
 app.set('view engine', 'ejs');
 app.set("views",path.join(__dirname, 'views'));
 
+
+//middleware //
 // adding parser in res we have details in that we have out data in header we will add data to in res to handle storing in body..
 app.use(express.urlencoded());
+
+//custom middleware exanple//
+app.use((req,res,next) => {
+    req.myname="devendra";
+    console.log("mdddleware 1");
+    next();// must be include this otherwise stuck here by this it will movw to next state
+})
+app.use((req,res,next) => {
+    console.log(req.myname);
+    console.log("mdddleware 2");
+    next();// must be include this otherwise stuck here by this it will movw to next state
+})
 
 //initializing some dummy contact listeners
 let contactList =[
