@@ -34,31 +34,39 @@ app.use(express.static("assets")); // will help to load css js  images or static
 
 
 //initializing some dummy contact listeners
-let contactList =[
-    {
-        name:"devendra",
-        phone:"1111111110"
-    },
-    {
-        name:"devendra 1",
-        phone:"1111111111"
-    },
-    {
-        name:"devendra 2 ",
-        phone:"1111111112"
-    },
-    {
-        name:"devendra 3",
-        phone:"1111111113"
-    }
-]
+// let contactList =[
+//     {
+//         name:"devendra",
+//         phone:"1111111110"
+//     },
+//     {
+//         name:"devendra 1",
+//         phone:"1111111111"
+//     },
+//     {
+//         name:"devendra 2 ",
+//         phone:"1111111112"
+//     },
+//     {
+//         name:"devendra 3",
+//         phone:"1111111113"
+//     }
+// ]
 
 // resending requests back to server
 app.get('/', (req, res) => {
 
-   return res.render("home",{
-       title:"Devendra Mahor",
-       contact_list:contactList
+    Contact.find({},(err,contactList)=>{
+            if(err){
+                console.log(err,"Error in fetching data from database");
+                return;
+            }
+            else{
+                return res.render("home",{
+                    title:"Devendra Mahor",
+                    contact_list:contactList
+                    });
+                }
     });
 });
 
@@ -70,7 +78,7 @@ app.get('/profile', function(req, res){
 
 app.get('/delete-contact',(req, res)=>{
     //console.log(req.query.phone);
-    let phoneTemp = req.query.phone;
+    //let phoneTemp = req.query.phone;
     //will take extra space
     // let list=contactList.filter(contact=> (contact.phone !== phoneTemp));
     // contactList=list;
@@ -79,21 +87,47 @@ app.get('/delete-contact',(req, res)=>{
    
 
     //without extra space
-    let currentIndex=contactList.findIndex(contact => contact.phone == phoneTemp);
-    console.log(currentIndex,phoneTemp);
-    if(currentIndex != -1){
-        contactList.splice(currentIndex, 1);
-    }
+    // let currentIndex=contactList.findIndex(contact => contact.phone == phoneTemp);
+    // console.log(currentIndex,phoneTemp);
+    // if(currentIndex != -1){
+    //     contactList.splice(currentIndex, 1);
+    // }
+
+    // by mongo db delete
+     let id=req.query.id;
+     //deleting by id
+     Contact.findByIdAndDelete(id,(err)=>{
+         if(err){
+             console.log("contact not deleted ",err);
+             return;
+         }
+         return res.redirect('back'); // will redirect to same page from where request came
+
+     });
+
+
+   // return res.redirect('back'); // will redirect to same page from where request came
     
-    return res.redirect('back'); // will redirect to same page from where request came
 });
 
 //responding request for data storage post request from input form
 app.post('/create-contact', function(req, res){
-     console.log(req.body);
-    contactList.push(req.body);
+    //  console.log(req.body);
+    // contactList.push(req.body);
 
-    return res.redirect('back'); // will redirect to same page from where request came
+    Contact.create({
+        name: req.body.name,
+        phone: req.body.phone
+    },(err,newContact)=>{
+        if(err){console.log(err,"Error in storing contact");
+            return;
+    }
+    else{
+        return res.redirect('back'); // will redirect to same page from where request came
+    }
+    })
+
+    
 });
 
 
